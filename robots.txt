@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /css/
+Disallow: /js/
+Disallow: /images/
+
+Sitemap: https://blueharvestexchange.com/sitemap.xml 
