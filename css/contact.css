@@ -344,6 +344,28 @@
     margin-bottom: 0.8rem;
 }
 
+/* Map Embed Styles */
+.map-section .map-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.map-section .map-iframe {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+.map-section .map-iframe iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
 /* FAQ Section */
 .faq-section {
     padding: 6rem 2rem;
@@ -496,7 +518,7 @@
 .social-icon:hover i {
     background-color: var(--primary);
     color: var(--white);
-    transform: rotateY(180deg);
+    transform: scale(1.1);
 }
 
 .social-icon:hover .social-name {

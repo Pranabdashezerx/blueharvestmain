@@ -284,6 +284,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add ripple effect to all buttons and clickable elements
     addRippleEffect(document.querySelectorAll('button, .service-card, .feature-item, .solution-card, .why-us-item, .status-tag, .service-cta, .nav-links a, .social-icon, .btn'));
+
+    // Ensure loading screen is removed when navigating with browser back/forward (bfcache restore)
+    window.addEventListener('pageshow', (event) => {
+        // When the page is restored from the bfcache, DOMContentLoaded does not fire again.
+        // Force-hide the loading overlay just in case.
+        document.body.classList.add('loaded');
+    });
+
+    // Partners navigation controls removed
+    //:functionality for manual scroll buttons removed
+    //cleanup listeners
+    const prevBtn = document.getElementById('partners-prev');
+    const nextBtn = document.getElementById('partners-next');
+    const pauseBtn = document.getElementById('partners-pause');
+    prevBtn?.remove();
+    nextBtn?.remove();
+    pauseBtn?.remove();
 });
 
 // Add smooth scrolling for anchor links with performance optimization

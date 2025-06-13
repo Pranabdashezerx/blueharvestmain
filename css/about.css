@@ -133,7 +133,7 @@
 
 .values-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 3rem;
     max-width: 1200px;
     margin: 0 auto;
@@ -159,7 +159,8 @@
     width: 100%;
     height: 5px;
     background: linear-gradient(to right, var(--primary), var(--primary-light));
-    transition: height 0.4s ease;
+    opacity: 0;
+    transition: height 0.4s ease, opacity 0.4s ease;
     z-index: -1;
 }
 
@@ -211,6 +212,18 @@
     font-size: 1.6rem;
     color: var(--gray);
     line-height: 1.6;
+}
+
+/* Responsive for values-container */
+@media (max-width: 992px) {
+    .values-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 576px) {
+    .values-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Team Section */
@@ -482,7 +495,7 @@
     }
     
     .values-container {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
     }
     
     .team-container {
