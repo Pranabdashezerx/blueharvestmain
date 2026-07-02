@@ -1,0 +1,462 @@
+/* Digital platform — coming soon page */
+
+.platform-page {
+    --platform-bg: #eef2f5;
+    --platform-ink: #0f3057;
+    --platform-muted: #4d5c6a;
+    --platform-surface: #ffffff;
+    --platform-border: rgba(15, 48, 87, 0.12);
+    background: var(--platform-bg);
+}
+
+.platform-page main {
+    background: var(--platform-bg);
+}
+
+.platform-section-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 clamp(1.4rem, 3vw, 2rem);
+}
+
+/* Hero */
+.platform-hero {
+    padding: calc(var(--header-height) + 4rem) 2rem 4.5rem;
+    background: linear-gradient(165deg, #071018 0%, var(--primary-dark) 55%, #0a3d52 100%);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.platform-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(231, 169, 23, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 10% 90%, rgba(0, 136, 145, 0.15) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.platform-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.platform-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--nav-font);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1.4rem;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.platform-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(231, 169, 23, 0.8);
+    animation: platform-pulse 2s ease-in-out infinite;
+}
+
+@keyframes platform-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.55; transform: scale(0.85); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .platform-status-dot {
+        animation: none;
+    }
+}
+
+.platform-hero h1 {
+    font-size: clamp(3rem, 5.5vw, 4.8rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.2rem;
+}
+
+.platform-hero-lead {
+    font-size: 1.65rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+}
+
+.platform-hero-note {
+    font-size: 1.45rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.62);
+    margin-bottom: 2.2rem;
+    font-style: italic;
+}
+
+.platform-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.platform-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.15rem 1.8rem;
+    font-family: var(--nav-font);
+    font-size: 1.45rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.platform-btn-primary {
+    color: var(--primary-dark);
+    background: linear-gradient(135deg, #f5c842 0%, var(--accent) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 20px rgba(231, 169, 23, 0.35);
+}
+
+.platform-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(231, 169, 23, 0.45);
+}
+
+.platform-btn-ghost {
+    color: var(--white);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.platform-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Plain explanation */
+.platform-plain {
+    padding: 5rem 0;
+}
+
+.platform-plain h2,
+.platform-hints h2,
+.platform-teaser-header h2,
+.platform-cta h2 {
+    font-size: clamp(2.2rem, 3.5vw, 2.8rem);
+    color: var(--platform-ink);
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.platform-plain-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0 1.5rem;
+}
+
+.platform-plain-card {
+    background: var(--platform-surface);
+    border: 1px solid var(--platform-border);
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.platform-plain-card--accent {
+    border-top: 3px solid var(--accent);
+    background: linear-gradient(180deg, #fffdf8 0%, var(--platform-surface) 100%);
+}
+
+.platform-plain-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 0.8rem;
+}
+
+.platform-plain-card p {
+    font-size: 1.48rem;
+    line-height: 1.75;
+    color: var(--platform-muted);
+}
+
+.platform-plain-foot {
+    font-size: 1.42rem;
+    line-height: 1.7;
+    color: var(--platform-muted);
+    padding: 1.2rem 1.4rem;
+    background: rgba(0, 88, 122, 0.05);
+    border-left: 3px solid var(--primary);
+    border-radius: 0 8px 8px 0;
+}
+
+/* Teaser previews */
+.platform-teaser {
+    padding: 2rem 0 5rem;
+}
+
+.platform-teaser-header {
+    margin-bottom: 2.5rem;
+}
+
+.platform-teaser-header p {
+    font-size: 1.48rem;
+    color: var(--platform-muted);
+    max-width: 52ch;
+}
+
+.platform-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+}
+
+.platform-preview {
+    margin: 0;
+}
+
+.platform-preview-frame {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--platform-border);
+    box-shadow: 0 12px 40px rgba(15, 48, 87, 0.12);
+    background: var(--platform-surface);
+}
+
+.platform-preview-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: blur(6px) saturate(0.85);
+    transform: scale(1.03);
+    user-select: none;
+    pointer-events: none;
+}
+
+.platform-preview-veil {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(7, 16, 24, 0.55);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.platform-preview-veil span {
+    font-family: var(--nav-font);
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.92);
+    text-align: center;
+    padding: 0.8rem 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    background: rgba(15, 48, 87, 0.5);
+}
+
+.platform-preview figcaption {
+    margin-top: 1rem;
+    font-size: 1.38rem;
+    line-height: 1.5;
+    color: var(--platform-muted);
+    font-style: italic;
+    text-align: center;
+}
+
+/* Hints */
+.platform-hints {
+    padding: 5rem 0;
+    background: var(--platform-surface);
+    border-top: 1px solid var(--platform-border);
+    border-bottom: 1px solid var(--platform-border);
+}
+
+.platform-hints-intro {
+    font-size: 1.48rem;
+    line-height: 1.7;
+    color: var(--platform-muted);
+    margin-bottom: 2rem;
+    max-width: 62ch;
+}
+
+.platform-hint-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.platform-hint-list li {
+    padding: 1.6rem 1.8rem;
+    background: var(--platform-bg);
+    border: 1px solid var(--platform-border);
+    border-radius: 10px;
+}
+
+.platform-hint-label {
+    display: block;
+    font-family: var(--nav-font);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 0.6rem;
+}
+
+.platform-hint-list p {
+    font-size: 1.42rem;
+    line-height: 1.65;
+    color: var(--platform-muted);
+    margin: 0;
+}
+
+.platform-hints-close {
+    font-size: 1.45rem;
+    line-height: 1.7;
+    color: var(--platform-ink);
+    font-weight: 500;
+}
+
+/* Suspense / redacted */
+.platform-suspense {
+    padding: 5rem 0;
+}
+
+.platform-suspense-inner {
+    text-align: center;
+}
+
+.platform-quote {
+    margin: 0 auto 2.5rem;
+    max-width: 58ch;
+    padding: 0;
+    border: none;
+}
+
+.platform-quote p {
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+    line-height: 1.6;
+    color: var(--platform-ink);
+    font-weight: 500;
+}
+
+.platform-redacted {
+    display: inline-block;
+    text-align: left;
+    padding: 2rem 2.4rem;
+    background: var(--platform-surface);
+    border: 1px dashed rgba(15, 48, 87, 0.22);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.platform-redacted-line {
+    font-family: var(--nav-font);
+    font-size: 1.35rem;
+    color: var(--platform-muted);
+    margin-bottom: 0.7rem;
+}
+
+.platform-redacted-line:last-child {
+    margin-bottom: 0;
+}
+
+.redact {
+    display: inline-block;
+    padding: 0 0.15rem;
+    background: var(--platform-ink);
+    color: transparent;
+    border-radius: 2px;
+    letter-spacing: 0.12em;
+    user-select: none;
+}
+
+.platform-suspense-note {
+    font-size: 1.4rem;
+    color: var(--platform-muted);
+    max-width: 48ch;
+    margin: 0 auto;
+}
+
+/* CTA */
+.platform-cta {
+    padding: 4.5rem 0 6rem;
+}
+
+.platform-cta-inner {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    border-radius: 12px;
+    color: var(--white);
+}
+
+.platform-cta-inner h2 {
+    color: var(--white);
+    margin-bottom: 0.8rem;
+}
+
+.platform-cta-inner p {
+    font-size: 1.48rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.82);
+    margin-bottom: 1.8rem;
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .platform-plain-grid,
+    .platform-preview-grid,
+    .platform-hint-list {
+        grid-template-columns: 1fr;
+    }
+
+    .platform-hero {
+        padding-top: calc(var(--header-height) + 2.5rem);
+    }
+
+    .platform-redacted {
+        width: 100%;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .platform-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .platform-btn {
+        width: 100%;
+    }
+}

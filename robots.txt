@@ -1,7 +1,9 @@
 User-agent: *
 Allow: /
-Disallow: /css/
-Disallow: /js/
-Disallow: /images/
 
-Sitemap: https://blueharvestexchange.com/sitemap.xml 
+# Static assets — allow crawling for rendering & image search
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+Sitemap: https://blueharvestexchange.com/sitemap.xml

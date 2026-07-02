@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide loading screen when page is fully loaded
     setTimeout(() => {
         document.body.classList.add('loaded');
+        document.dispatchEvent(new MouseEvent('mousemove', {
+            clientX: window.innerWidth / 2,
+            clientY: window.innerHeight / 2,
+            bubbles: true
+        }));
     }, 800); // Short delay for better visual effect
     
     // Handle links for page transitions with loading screen
@@ -14,9 +19,22 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetUrl = this.href;
+
+                if (this.classList.contains('status-tag')) {
+                    const heroButtons = this.closest('.hero-buttons');
+                    heroButtons?.classList.add('is-navigating');
+                    this.classList.add('is-navigating');
+                }
                 
                 // Show loading screen
                 document.body.classList.remove('loaded');
+                document.documentElement.classList.add('cursor-on-dark');
+
+                try {
+                    sessionStorage.setItem('bh-cursor', 'dark');
+                } catch (error) {
+                    // Ignore storage errors
+                }
                 
                 // Navigate to the new page after a short delay
                 setTimeout(() => {
@@ -27,54 +45,144 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initialize AOS (Animate On Scroll) with once:true to prevent animations reverting
-    AOS.init({
-        duration: 800,
-        easing: 'ease-in-out',
-        once: true, // Set to true so animations don't revert
-        mirror: false,
-        anchorPlacement: 'top-bottom',
-        disable: 'mobile' // Disable on mobile for better performance
-    });
-
-    // Navbar scroll effect - optimized with throttling and requestAnimationFrame
-    const header = document.querySelector('header');
-    
-    // Apply scrolled class on page load if not at top
-    if (window.scrollY > 10) {
-        header.classList.add('scrolled');
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true, // Set to true so animations don't revert
+            mirror: false,
+            anchorPlacement: 'top-bottom',
+            disable: 'mobile' // Disable on mobile for better performance
+        });
     }
-    
-    let headerTicking = false;
-    window.addEventListener('scroll', () => {
-        if (!headerTicking) {
-            window.requestAnimationFrame(() => {
-                if (window.scrollY > 10) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-                headerTicking = false;
-            });
-            headerTicking = true;
-        }
-    }, { passive: true });
+
+    // Navbar capsule — white glass on scroll (outer header stays transparent)
+    const header = document.querySelector('#site-header') || document.querySelector('header');
+
+    if (header) {
+        const updateHeaderScroll = () => {
+            header.classList.toggle('scrolled', window.scrollY > 10);
+        };
+
+        updateHeaderScroll();
+
+        let headerTicking = false;
+        window.addEventListener('scroll', () => {
+            if (!headerTicking) {
+                window.requestAnimationFrame(() => {
+                    updateHeaderScroll();
+                    headerTicking = false;
+                });
+                headerTicking = true;
+            }
+        }, { passive: true });
+    }
 
     // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
-    
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navLinks.classList.toggle('active');
+    const navBackdrop = document.querySelector('.nav-backdrop');
+
+    const closeMobileMenu = () => {
+        hamburger?.classList.remove('active');
+        navLinks?.classList.remove('active');
+        navBackdrop?.classList.remove('is-visible');
+        navBackdrop?.setAttribute('hidden', '');
+        hamburger?.setAttribute('aria-expanded', 'false');
+        hamburger?.setAttribute('aria-label', 'Open menu');
+        document.body.classList.remove('nav-open');
+    };
+
+    const openMobileMenu = () => {
+        hamburger?.classList.add('active');
+        navLinks?.classList.add('active');
+        navBackdrop?.classList.add('is-visible');
+        navBackdrop?.removeAttribute('hidden');
+        hamburger?.setAttribute('aria-expanded', 'true');
+        hamburger?.setAttribute('aria-label', 'Close menu');
+        document.body.classList.add('nav-open');
+    };
+
+    header?.querySelector('.nav-close')?.remove();
+    navLinks?.querySelector('.nav-close')?.remove();
+
+    if (navLinks && !navLinks.querySelector('.nav-close')) {
+        const navClose = document.createElement('button');
+        navClose.type = 'button';
+        navClose.className = 'nav-close';
+        navClose.setAttribute('aria-label', 'Close menu');
+        navClose.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
+        navLinks.insertBefore(navClose, navLinks.firstChild);
+        navClose.addEventListener('click', closeMobileMenu);
+    }
+
+    hamburger?.addEventListener('click', () => {
+        if (navLinks?.classList.contains('active')) {
+            closeMobileMenu();
+        } else {
+            openMobileMenu();
+        }
     });
 
+    navBackdrop?.addEventListener('click', closeMobileMenu);
+
     // Close mobile menu when clicking a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
-        });
+    document.querySelectorAll('.nav-links a, .nav-links .header-cta').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
     });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            closeMobileMenu();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && navLinks?.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    });
+
+    // Legal page — highlight active section in table of contents
+    if (document.body.classList.contains('legal-page')) {
+        const legalSections = document.querySelectorAll('.legal-section[id]');
+        const legalTocLinks = document.querySelectorAll('.legal-toc a');
+
+        if (legalSections.length && legalTocLinks.length) {
+            const setActiveTocLink = (id) => {
+                legalTocLinks.forEach((link) => {
+                    link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
+                });
+            };
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    const visible = entries
+                        .filter((entry) => entry.isIntersecting)
+                        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+                    if (visible[0]?.target?.id) {
+                        setActiveTocLink(visible[0].target.id);
+                    }
+                },
+                {
+                    rootMargin: `-${Math.round(window.innerHeight * 0.28)}px 0px -55% 0px`,
+                    threshold: [0, 0.15, 0.35, 0.55]
+                }
+            );
+
+            legalSections.forEach((section) => observer.observe(section));
+
+            legalTocLinks.forEach((link) => {
+                link.addEventListener('click', () => {
+                    const id = link.getAttribute('href')?.slice(1);
+                    if (id) {
+                        setActiveTocLink(id);
+                    }
+                });
+            });
+        }
+    }
 
     // Statistics Counter Animation
     const statsSection = document.querySelector('.statistics');
@@ -211,54 +319,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Optimized parallax effect with throttling for performance
-    let ticking = false;
-    window.addEventListener('scroll', function() {
-        if (!ticking) {
-            window.requestAnimationFrame(function() {
-                const scrollPosition = window.pageYOffset;
-                
-                // Parallax for hero section
-                const heroImg = document.querySelector('.hero-img');
-                if (heroImg) {
-                    heroImg.style.transform = `translateY(${scrollPosition * 0.05}px)`;
-                }
-                
-                // Parallax for cold chain section
-                const coldChainImg = document.querySelector('.cold-chain-img');
-                if (coldChainImg) {
-                    const coldChainSection = document.querySelector('.cold-chain');
-                    if (coldChainSection) {
-                        const coldChainOffset = coldChainSection.offsetTop;
-                        const relativeScroll = scrollPosition - coldChainOffset + 500;
-                        
-                        if (relativeScroll > 0) {
-                            coldChainImg.style.transform = `translateY(${relativeScroll * 0.03}px)`;
-                        }
-                    }
-                }
-                
-                // Parallax for quality section
-                const qualityImg = document.querySelector('.quality-img');
-                if (qualityImg) {
-                    const qualitySection = document.querySelector('.quality-control');
-                    if (qualitySection) {
-                        const qualityOffset = qualitySection.offsetTop;
-                        const relativeScroll = scrollPosition - qualityOffset + 500;
-                        
-                        if (relativeScroll > 0) {
-                            qualityImg.style.transform = `translateY(${relativeScroll * 0.02}px)`;
-                        }
-                    }
-                }
-                
-                ticking = false;
-            });
-            
-            ticking = true;
-        }
-    });
-    
+    if (typeof initDepthParallax === 'function') {
+        initDepthParallax();
+    }
+
+    if (typeof initSplitScroll === 'function') {
+        initSplitScroll();
+    }
+
     // Add ripple effect to all buttons and clickable elements
     const addRippleEffect = (elements) => {
         elements.forEach(element => {
@@ -283,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // Add ripple effect to all buttons and clickable elements
-    addRippleEffect(document.querySelectorAll('button, .service-card, .feature-item, .solution-card, .why-us-item, .status-tag, .service-cta, .nav-links a, .social-icon, .btn'));
+    addRippleEffect(document.querySelectorAll('button, .service-card, .feature-item, .solution-card, .why-us-item, .status-tag, .header-cta, .service-cta, .nav-links a, .social-icon, .btn'));
 
     // Ensure loading screen is removed when navigating with browser back/forward (bfcache restore)
     window.addEventListener('pageshow', (event) => {
@@ -301,7 +369,27 @@ document.addEventListener('DOMContentLoaded', () => {
     prevBtn?.remove();
     nextBtn?.remove();
     pauseBtn?.remove();
+
+    initWhatsAppCta();
 });
+
+function initWhatsAppCta() {
+    if (document.querySelector('.whatsapp-cta')) {
+        return;
+    }
+
+    const phone = '917008169612';
+    const message = encodeURIComponent("Hello, I'd like to know more about BlueHarvest Exchange seafood trading services.");
+    const link = document.createElement('a');
+    link.className = 'whatsapp-cta';
+    link.href = `https://wa.me/${phone}?text=${message}`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('aria-label', 'Chat with BlueHarvest Exchange on WhatsApp');
+    link.innerHTML = '<span class="whatsapp-cta__icon" aria-hidden="true"><i class="fab fa-whatsapp"></i></span>';
+
+    document.body.appendChild(link);
+}
 
 // Add smooth scrolling for anchor links with performance optimization
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -392,4 +480,177 @@ if (faqItems.length > 0) {
             }
         });
     });
-} 
+}
+
+/**
+ * Switches the custom fishing-rod cursor between blue (light backgrounds)
+ * and white (dark backgrounds) for proper contrast.
+ */
+let adaptiveCursorInitialized = false;
+
+function initAdaptiveCursor() {
+    if (adaptiveCursorInitialized || !window.matchMedia('(pointer: fine)').matches) {
+        return;
+    }
+
+    adaptiveCursorInitialized = true;
+
+    const DARK_LUMINANCE_THRESHOLD = 0.45;
+    const DARK_SURFACE_SELECTOR = [
+        '.hero',
+        '.hero-split-pin',
+        '.hero-split-viewport',
+        '.statistics',
+        '.transform-banner',
+        '.pt-hero',
+        '.pt-chapter--sea',
+        '.pt-cta-inner',
+        'footer',
+        '#loading-screen',
+        'header .navbar',
+        '.service-header',
+        '.image-placeholder',
+        '[data-cursor="dark"]'
+    ].join(', ');
+
+    function parseRgba(color) {
+        if (!color || color === 'transparent') {
+            return null;
+        }
+
+        const match = color.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)/);
+        if (!match) {
+            return null;
+        }
+
+        return {
+            r: Number(match[1]),
+            g: Number(match[2]),
+            b: Number(match[3]),
+            a: match[4] !== undefined ? Number(match[4]) : 1
+        };
+    }
+
+    function getRelativeLuminance(r, g, b) {
+        const channel = (value) => {
+            const normalized = value / 255;
+            return normalized <= 0.03928
+                ? normalized / 12.92
+                : Math.pow((normalized + 0.055) / 1.055, 2.4);
+        };
+
+        const rs = channel(r);
+        const gs = channel(g);
+        const bs = channel(b);
+        return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+    }
+
+    function isDarkSurface(element) {
+        if (!element) {
+            return false;
+        }
+
+        if (element.closest('[data-cursor="light"]')) {
+            return false;
+        }
+
+        if (element.closest(DARK_SURFACE_SELECTOR)) {
+            return true;
+        }
+
+        let node = element;
+        while (node && node !== document.documentElement) {
+            const style = window.getComputedStyle(node);
+            const background = parseRgba(style.backgroundColor);
+
+            if (background && background.a > 0.12) {
+                return getRelativeLuminance(background.r, background.g, background.b) < DARK_LUMINANCE_THRESHOLD;
+            }
+
+            node = node.parentElement;
+        }
+
+        return false;
+    }
+
+    function setCursorTheme(isDark) {
+        document.documentElement.classList.toggle('cursor-on-dark', isDark);
+
+        try {
+            sessionStorage.setItem('bh-cursor', isDark ? 'dark' : 'light');
+        } catch (error) {
+            // Ignore storage errors
+        }
+    }
+
+    let pendingPoint = null;
+    let cursorTicking = false;
+    let lastDark = null;
+
+    function updateCursorTheme(clientX, clientY) {
+        const target = document.elementFromPoint(clientX, clientY);
+        const isDark = isDarkSurface(target);
+
+        if (isDark !== lastDark) {
+            setCursorTheme(isDark);
+            lastDark = isDark;
+        }
+    }
+
+    document.addEventListener('mousemove', (event) => {
+        pendingPoint = { x: event.clientX, y: event.clientY };
+
+        if (!cursorTicking) {
+            cursorTicking = true;
+            window.requestAnimationFrame(() => {
+                if (pendingPoint) {
+                    updateCursorTheme(pendingPoint.x, pendingPoint.y);
+                }
+                cursorTicking = false;
+            });
+        }
+    }, { passive: true });
+
+    window.addEventListener('pageshow', () => {
+        if (pendingPoint) {
+            updateCursorTheme(pendingPoint.x, pendingPoint.y);
+            return;
+        }
+
+        try {
+            const storedTheme = sessionStorage.getItem('bh-cursor');
+            if (storedTheme === 'dark') {
+                setCursorTheme(true);
+                lastDark = true;
+            } else if (storedTheme === 'light') {
+                setCursorTheme(false);
+                lastDark = false;
+            }
+        } catch (error) {
+            // Ignore storage errors
+        }
+    });
+}
+
+initAdaptiveCursor();
+
+/* Homepage featured blog peekaboo reveal */
+const featuredBlogPeekaboo = document.querySelector('.featured-blog-peekaboo');
+if (featuredBlogPeekaboo) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+        featuredBlogPeekaboo.classList.add('is-revealed');
+    } else {
+        const peekabooObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    featuredBlogPeekaboo.classList.add('is-revealed');
+                    peekabooObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.25, rootMargin: '0px 0px -8% 0px' });
+
+        peekabooObserver.observe(featuredBlogPeekaboo);
+    }
+}
