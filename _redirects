@@ -1,0 +1,35 @@
+# Canonical homepage — strip legacy index filenames
+/index.html / 301
+/index.php / 301
+
+# Legacy .html URLs → clean URLs
+/about.html /about/ 301
+/services.html /services/ 301
+/contact.html /contact/ 301
+/infrastructure.html /infrastructure/ 301
+/ai-platform.html /ai-platform/ 301
+/trade-ethics.html /trade-ethics/ 301
+/privacy-policy.html /privacy-policy/ 301
+/blog.html /blog/ 301
+
+# Legacy blog .html URLs
+/blog/how-indias-fish-trade-works.html /blog/how-indias-fish-trade-works/ 301
+/blog/digital-fish-auctions-india.html /blog/digital-fish-auctions-india/ 301
+/blog/cold-chain-seafood-guide.html /blog/cold-chain-seafood-guide/ 301
+/blog/sustainable-seafood-trading.html /blog/sustainable-seafood-trading/ 301
+/blog/choosing-wholesale-seafood-supplier.html /blog/choosing-wholesale-seafood-supplier/ 301
+
+# /path/index.html duplicates → canonical trailing-slash URLs
+/about/index.html /about/ 301
+/services/index.html /services/ 301
+/contact/index.html /contact/ 301
+/infrastructure/index.html /infrastructure/ 301
+/ai-platform/index.html /ai-platform/ 301
+/trade-ethics/index.html /trade-ethics/ 301
+/privacy-policy/index.html /privacy-policy/ 301
+/blog/index.html /blog/ 301
+/blog/how-indias-fish-trade-works/index.html /blog/how-indias-fish-trade-works/ 301
+/blog/digital-fish-auctions-india/index.html /blog/digital-fish-auctions-india/ 301
+/blog/cold-chain-seafood-guide/index.html /blog/cold-chain-seafood-guide/ 301
+/blog/sustainable-seafood-trading/index.html /blog/sustainable-seafood-trading/ 301
+/blog/choosing-wholesale-seafood-supplier/index.html /blog/choosing-wholesale-seafood-supplier/ 301
