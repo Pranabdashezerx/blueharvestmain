@@ -378,7 +378,7 @@ function initWhatsAppCta() {
         return;
     }
 
-    const phone = '917008169612';
+    const phone = '919438336567';
     const message = encodeURIComponent("Hello, I'd like to know more about BlueHarvest Exchange seafood trading services.");
     const link = document.createElement('a');
     link.className = 'whatsapp-cta';
