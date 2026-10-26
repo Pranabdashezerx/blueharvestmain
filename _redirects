@@ -7,7 +7,9 @@
 /services.html /services/ 301
 /contact.html /contact/ 301
 /infrastructure.html /infrastructure/ 301
-/ai-platform.html /ai-platform/ 301
+/ai-platform.html /services/online-platform/ 301
+/ai-platform /services/online-platform/ 301
+/ai-platform/ /services/online-platform/ 301
 /trade-ethics.html /trade-ethics/ 301
 /privacy-policy.html /privacy-policy/ 301
 /blog.html /blog/ 301
@@ -22,9 +24,15 @@
 # /path/index.html duplicates → canonical trailing-slash URLs
 /about/index.html /about/ 301
 /services/index.html /services/ 301
+/services/offline-marketplace/index.html /services/offline-marketplace/ 301
+/services/online-platform/index.html /services/online-platform/ 301
+/services/smart-trawler /services/smart-ai-trawler/ 301
+/services/smart-trawler/ /services/smart-ai-trawler/ 301
+/services/smart-trawler/index.html /services/smart-ai-trawler/ 301
+/services/smart-ai-trawler/index.html /services/smart-ai-trawler/ 301
 /contact/index.html /contact/ 301
 /infrastructure/index.html /infrastructure/ 301
-/ai-platform/index.html /ai-platform/ 301
+/ai-platform/index.html /services/online-platform/ 301
 /trade-ethics/index.html /trade-ethics/ 301
 /privacy-policy/index.html /privacy-policy/ 301
 /blog/index.html /blog/ 301

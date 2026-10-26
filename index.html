@@ -122,9 +122,15 @@
                 <ul>
                     <li><a href="/" class="active"><span>Home</span></a></li>
                     <li><a href="/about/"><span>About Us</span></a></li>
-                    <li><a href="/services/"><span>Services</span></a></li>
+                    <li class="nav-item-has-menu">
+                        <a href="/services/"><span>Services</span></a>
+                        <ul class="nav-submenu" aria-label="Services">
+                            <li><a href="/services/offline-marketplace/">Offline Marketplace</a></li>
+                            <li><a href="/services/online-platform/">Online Platform</a></li>
+                            <li><a href="/services/smart-ai-trawler/">Smart AI Trawler</a></li>
+                        </ul>
+                    </li>
                     <li><a href="/infrastructure/"><span>Infrastructure</span></a></li>
-                    <li><a href="/ai-platform/"><span>Platform &amp; Tech</span></a></li>
                     <li><a href="/blog/"><span>Blog</span></a></li>
                 </ul>
                 <a href="/contact/" class="header-cta">
@@ -184,13 +190,13 @@
                             <span class="hero-headline-locale">in India</span>
                         </h1>
                         <h2 class="hero-tagline">
-                            <span class="hero-tagline-highlight">India's Most Advanced</span>
-                            Verified Seafood Marketplace
+                            <span class="hero-tagline-highlight">Hardware at sea</span>
+                            A verified seafood marketplace ashore
                         </h2>
                         <div class="hero-divider" aria-hidden="true"><span></span></div>
-                        <p class="hero-description">We are connecting <strong>verified fish suppliers</strong> with institutional and commercial buyers through a <strong>trusted offline marketplace</strong> — with an <strong>AI-powered digital platform</strong> coming soon.</p>
+                        <p class="hero-description">Instruments on the fishing vessel record the trip. <strong>Verified suppliers</strong> and buyers meet that catch in a <strong>licensed offline market</strong>. The <strong>digital platform</strong> is coming soon.</p>
                         <div class="hero-buttons">
-                            <a href="/services/" class="status-tag active">
+                            <a href="/services/offline-marketplace/" class="status-tag active">
                                 <span class="status-tag-icon" aria-hidden="true"><i class="fas fa-store"></i></span>
                                 <span class="status-tag-text">
                                     <span class="status-tag-label">Offline Trading</span>
@@ -201,7 +207,18 @@
                                 </span>
                                 <i class="fas fa-arrow-right status-tag-arrow" aria-hidden="true"></i>
                             </a>
-                            <a href="/ai-platform/#digital-trading" class="status-tag coming-soon">
+                            <a href="/services/smart-ai-trawler/" class="status-tag active">
+                                <span class="status-tag-icon" aria-hidden="true"><i class="fas fa-microchip"></i></span>
+                                <span class="status-tag-text">
+                                    <span class="status-tag-label">Vessel hardware</span>
+                                    <span class="status-tag-status">
+                                        <span class="status-live-dot" aria-hidden="true"></span>
+                                        Now Live
+                                    </span>
+                                </span>
+                                <i class="fas fa-arrow-right status-tag-arrow" aria-hidden="true"></i>
+                            </a>
+                            <a href="/services/online-platform/" class="status-tag coming-soon">
                                 <span class="status-tag-icon" aria-hidden="true"><i class="fas fa-globe"></i></span>
                                 <span class="status-tag-text">
                                     <span class="status-tag-label">Online Platform</span>
@@ -291,9 +308,9 @@
                         <i class="fas fa-microchip"></i>
                     </div>
                     <div class="solution-content">
-                        <h3>Platform &amp; Technology</h3>
+                        <h3>Online Platform</h3>
                         <p>Digital harbour trading and intelligent systems — from auctions and invoices to computer vision, forecasting, and vessel-side catch intelligence.</p>
-                        <a href="/ai-platform/" class="solution-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <a href="/services/online-platform/" class="solution-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -439,7 +456,7 @@
                         <h3>Offline Marketplace</h3>
                         <p>Our physical trading hubs feature onsite weighing, sorting, grading, quality assessment, and complete documentation.</p>
                     </div>
-                    <a href="/services/" class="service-cta">Learn More</a>
+                    <a href="/services/offline-marketplace/" class="service-cta">Learn More</a>
                 </div>
 
                 <div class="service-card" data-aos="fade-up" data-aos-delay="200">
@@ -453,7 +470,7 @@
                         <h3>Online Platform</h3>
                         <p>Digital marketplace with live inventory listings, secure payment processing, and comprehensive logistics dashboard.</p>
                     </div>
-                    <a href="/ai-platform/#digital-trading" class="service-cta soon">Learn More</a>
+                    <a href="/services/online-platform/" class="service-cta soon">Learn More</a>
                 </div>
 
                 <div class="service-card" data-aos="fade-up" data-aos-delay="400">
@@ -461,14 +478,24 @@
                         <div class="service-icon">
                             <i class="fas fa-ship"></i>
                         </div>
-                        <div class="service-status coming-soon">Coming Soon</div>
+                        <div class="service-status active">Available Now</div>
                     </div>
                     <div class="service-content">
-                        <h3>Smart Trawler System</h3>
-                        <p>AI-powered fishing vessel optimization with real-time catch monitoring, species identification, and predictive analytics.</p>
+                        <h3>Smart AI Trawler Support System</h3>
+                        <p>Vessel-mounted IoT hardware that records position, conditions, and voyage events at sea, then connects that record to landing, grading, and sale.</p>
                     </div>
-                    <a href="/ai-platform/" class="service-cta soon">Learn More</a>
+                    <a href="/services/smart-ai-trawler/" class="service-cta">Learn More</a>
                 </div>
+            </div>
+            <div class="hardware-line">
+                <p>On the vessel, these instruments build the trip record.</p>
+                <ul>
+                    <li><strong>Edge controller</strong> Collects and timestamps the voyage until it can sync.</li>
+                    <li><strong>GPS / GNSS</strong> Position, speed, course, and the route.</li>
+                    <li><strong>Weather</strong> Air temperature, humidity, and wind.</li>
+                    <li><strong>Depth and fuel</strong> Water under the hull, and diesel used on the trip.</li>
+                </ul>
+                <a href="/services/smart-ai-trawler/">Smart AI Trawler <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
             </div>
             <div class="view-all-services" data-aos="fade-up">
                 <a href="/services/" class="btn btn-primary">View All Services</a>
@@ -629,7 +656,7 @@
                     <h3>Platform</h3>
                     <ul>
                         <li><a href="/services/">Services</a></li>
-                        <li><a href="/ai-platform/">Platform &amp; technology</a></li>
+                        <li><a href="/services/online-platform/">Online platform</a></li>
                         <li><a href="/">Marketplace</a></li>
                     </ul>
                 </div>
